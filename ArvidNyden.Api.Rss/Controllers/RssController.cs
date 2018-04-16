@@ -13,7 +13,7 @@ namespace ArvidNyden.Api.Rss.Controllers
         {
             this.rssFeedService = rssFeedService;
         }
-        // GET api/values
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {
