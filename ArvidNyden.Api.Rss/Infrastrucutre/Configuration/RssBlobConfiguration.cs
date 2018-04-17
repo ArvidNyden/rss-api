@@ -3,5 +3,6 @@
     public class RssImageConfiguration
     {
         public string ContainerName { get; set; }
+        public string StorageConnectionString { get; set; }
     }
 }

@@ -3,5 +3,6 @@
     public class RssTableConfiguration
     {
         public string TableName { get; set; }
+        public string StorageConnectionString { get; set; }
     }
 }

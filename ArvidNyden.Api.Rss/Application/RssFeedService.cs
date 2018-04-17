@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using ArvidNyden.Api.Rss.Application.Interfaces;
 using ArvidNyden.Api.Rss.Domain;
-using ArvidNyden.Api.Rss.Infrastrucutre.Interfaces;
 
 namespace ArvidNyden.Api.Rss.Application
 {

@@ -2,7 +2,6 @@
 using ArvidNyden.Api.Rss.Application.Interfaces;
 using ArvidNyden.Api.Rss.Infrastrucutre;
 using ArvidNyden.Api.Rss.Infrastrucutre.Configuration;
-using ArvidNyden.Api.Rss.Infrastrucutre.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,28 +25,19 @@ namespace ArvidNyden.Api.Rss
         {
             services.AddOptions();
             services.AddMvc();
-            services.Configure<KeyVaultConfiguration>(Configuration);
             services.Configure<RssTableConfiguration>(Configuration);
             services.Configure<RssImageConfiguration>(Configuration);
-
-            services.AddSingleton<IStorageSecurityService>(sp =>
-            {
-                var config = sp.GetService<IOptions<KeyVaultConfiguration>>();
-                return new StorageSecurityService(config.Value);
-            });
 
             services.AddTransient<IRssContentService>(sp =>
             {
                 var config = sp.GetService<IOptions<RssTableConfiguration>>();
-                var tableClient = sp.GetService<IStorageSecurityService>().GetTableClient();
-                return new RssTableService(tableClient, config.Value);
+                return new RssTableService(config.Value);
             });
 
             services.AddTransient<IRssImageService>(sp =>
             {
                 var config = sp.GetService<IOptions<RssImageConfiguration>>();
-                var blobClient = sp.GetService<IStorageSecurityService>().GetBlobClient();
-                return new RssImageService(blobClient, config.Value);
+                return new RssImageService(config.Value);
             });
 
             services.AddTransient<IRssFeedService, RssFeedService>();

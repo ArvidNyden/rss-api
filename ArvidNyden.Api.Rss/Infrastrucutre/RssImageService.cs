@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using ArvidNyden.Api.Rss.Application.Interfaces;
 using ArvidNyden.Api.Rss.Infrastrucutre.Configuration;
-using ArvidNyden.Api.Rss.Infrastrucutre.Interfaces;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace ArvidNyden.Api.Rss.Infrastrucutre
@@ -12,9 +13,15 @@ namespace ArvidNyden.Api.Rss.Infrastrucutre
         private readonly CloudBlobClient client;
         private readonly string containerName;
 
-        public RssImageService(CloudBlobClient client, RssImageConfiguration configuration)
+        public RssImageService(RssImageConfiguration configuration)
         {
-            this.client = client;
+            if (string.IsNullOrEmpty(configuration?.ContainerName))
+                throw new ArgumentNullException(nameof(configuration.ContainerName));
+
+            if (!CloudStorageAccount.TryParse(configuration.StorageConnectionString, out var storagAccount))
+                throw new Exception($"Unable to parse connection string");
+
+            client = storagAccount.CreateCloudBlobClient();
             containerName = configuration.ContainerName;
         }
 

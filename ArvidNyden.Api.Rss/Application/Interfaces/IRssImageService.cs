@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ArvidNyden.Api.Rss.Infrastrucutre.Interfaces
+namespace ArvidNyden.Api.Rss.Application.Interfaces
 {
     public interface IRssImageService
     {
